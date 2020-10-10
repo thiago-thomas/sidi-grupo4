@@ -5,4 +5,10 @@ body {
 input {
   margin: 0 5px; }
 
+#map {
+  height: 500px;
+  width: 100%;
+  border: 2px solid black;
+  margin-top: 20px; }
+
 /*# sourceMappingURL=style.css.map */
