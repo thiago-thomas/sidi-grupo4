@@ -5,12 +5,13 @@ require('../models/Fornecedor')
 const Fornecedor = mongoose.model('fornecedor')
 require('../models/Produto')
 const Produto = mongoose.model('produto')
+const {eAdmin} = require('../helpers/eAdmin')
 
-router.get('/', function(req, res) {
+router.get('/', eAdmin, function(req, res) {
     res.render('admin/index')
 })
 
-router.get('/fornecedor', function (req, res) {
+router.get('/fornecedor', eAdmin, function (req, res) {
     Fornecedor.find().then(function(fornecedor) {
         res.render('admin/fornecedor', { fornecedor: fornecedor.map(fornecedor => fornecedor.toJSON())})
     }).catch(function(err) {
@@ -20,11 +21,11 @@ router.get('/fornecedor', function (req, res) {
     
 })
 
-router.get('/fornecedor/add', function (req, res) {
+router.get('/fornecedor/add', eAdmin, function (req, res) {
     res.render('admin/addfornecedor')
 })
 
-router.post('/fornecedor/new', function (req, res) {
+router.post('/fornecedor/new', eAdmin, function (req, res) {
 
     var erros = []
 
@@ -60,7 +61,7 @@ router.post('/fornecedor/new', function (req, res) {
     
 })
 
-router.get('/fornecedor/edit/:id', function(req, res) {
+router.get('/fornecedor/edit/:id', eAdmin, function(req, res) {
     Fornecedor.findOne({_id: req.params.id}).lean().then(function(fornecedor){
         res.render('admin/editfornecedor', {fornecedor: fornecedor})
     }).catch(function(err) {
@@ -70,7 +71,7 @@ router.get('/fornecedor/edit/:id', function(req, res) {
      
 })
 
-router.post('/fornecedor/edit', function (req, res) {
+router.post('/fornecedor/edit', eAdmin, function (req, res) {
 
     let filter = {_id: req.body.id }
 
@@ -94,7 +95,7 @@ router.post('/fornecedor/edit', function (req, res) {
 
 })
 
-router.post('/fornecedor/del', function(req, res) {
+router.post('/fornecedor/del', eAdmin, function(req, res) {
     Fornecedor.remove({_id: req.body.id}).then(function() {
         req.flash('sucess_msg', "Fornecedor excluido com Sucesso")
         res.redirect('/admin/fornecedor')
@@ -105,7 +106,7 @@ router.post('/fornecedor/del', function(req, res) {
 })
 
 
-router.get('/produto', function (req, res) {
+router.get('/produto', eAdmin, function (req, res) {
     Produto.find().then(function (produto) {
         res.render('admin/produto', { produto: produto.map(produto => produto.toJSON()) })
     }).catch(function (err) {
@@ -115,11 +116,11 @@ router.get('/produto', function (req, res) {
 
 })
 
-router.get('/produto/add', function (req, res) {
+router.get('/produto/add', eAdmin, function (req, res) {
     res.render('admin/addproduto')
 })
 
-router.post('/produto/new', function (req, res) {
+router.post('/produto/new', eAdmin, function (req, res) {
 
     var erros = []
 
@@ -151,7 +152,7 @@ router.post('/produto/new', function (req, res) {
 
 })
 
-router.get('/produto/edit/:id', function (req, res) {
+router.get('/produto/edit/:id', eAdmin, function (req, res) {
     Produto.findOne({ _id: req.params.id }).lean().then(function (produto) {
         res.render('admin/editproduto', { produto: produto })
     }).catch(function (err) {
@@ -161,7 +162,7 @@ router.get('/produto/edit/:id', function (req, res) {
 
 })
 
-router.post('/produto/edit', function (req, res) {
+router.post('/produto/edit', eAdmin, function (req, res) {
 
     let filter = { _id: req.body.id }
 
@@ -185,7 +186,7 @@ router.post('/produto/edit', function (req, res) {
 
 })
 
-router.post('/produto/del', function (req, res) {
+router.post('/produto/del', eAdmin, function (req, res) {
     Produto.remove({ _id: req.body.id }).then(function () {
         req.flash('sucess_msg', "Produto excluido com Sucesso")
         res.redirect('/admin/produto')

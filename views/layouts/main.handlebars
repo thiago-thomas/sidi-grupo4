@@ -4,9 +4,14 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/css/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>App</title>
 </head>
 <body>
+    {{#if error}}
+        <div class="erro">{{error}}</div>
+    {{else}}
+
+    {{/if}}
     {{>_msg}}
     {{{body}}}
 </body>

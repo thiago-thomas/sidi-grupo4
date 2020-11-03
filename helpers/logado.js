@@ -1,0 +1,12 @@
+module.exports = {
+    logado: function (req, res, next) {
+
+        if (req.isAuthenticated() && req.user.eAdmin == 0) {
+            return next()
+        }
+
+        req.flash('error_msg', 'Você não está logado!')
+        res.redirect('/')
+
+    }
+}
