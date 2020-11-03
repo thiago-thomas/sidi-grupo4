@@ -1,0 +1,14 @@
+{{#each erros}}
+    <div class="erro">{{texto}}</div>
+{{else}}
+
+{{/each}}
+
+<h3>Adicionar Fornecedor</h3>
+<form action="/admin/fornecedor/new" method="post" class="form-fornecedor">
+    <label for="nome">Nome: </label>
+    <input type="text" name="nome" id="nome" placeholder="Nome">
+    <label for="telefone">Telefone: </label>
+    <input type="text" name="telefone" id="telefone" placeholder="telefone">
+    <button type="submit" class="botao">Adicionar Fornecedor</button>
+</form>

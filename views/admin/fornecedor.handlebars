@@ -1,0 +1,17 @@
+<h2>Lista de Fornecedores: </h2>
+<br>
+<a href="/admin/fornecedor/add"><button class="botao">Novo Fornecedor</button></a>
+
+{{#each fornecedor}}
+    <div class="fornecedor">
+        <h3>NOME: {{nome}}</h3>
+        <h3>TELEFONE: {{telefone}}</h3>
+        <a href="/admin/fornecedor/edit/{{_id}}"><button class="botao">Editar Fornecedor</button></a>
+        <form action="/admin/fornecedor/del" method="post">
+            <input type="hidden" name="id" value="{{_id}}">
+            <button type="submit" class="error">Deletar Fornecedor</button>
+        </form>
+    </div>
+{{else}}
+    <h4>Nenhum Fornecedor Registrado</h4>
+{{/each}}

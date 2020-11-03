@@ -1,0 +1,17 @@
+<h2>Lista de Produtos: </h2>
+<br>
+<a href="/admin/produto/add"><button class="botao">Novo Produto</button></a>
+
+{{#each produto}}
+    <div class="fornecedor">
+        <h3>NOME: {{nome}}</h3>
+        <h3>VALOR: {{valor}}</h3>
+        <a href="/admin/produto/edit/{{_id}}"><button class="botao">Editar Produto</button></a>
+        <form action="/admin/produto/del" method="post">
+            <input type="hidden" name="id" value="{{_id}}">
+            <button type="submit" class="error">Deletar Produto</button>
+        </form>
+    </div>
+{{else}}
+    <h4>Nenhum Produto Registrado</h4>
+{{/each}}
