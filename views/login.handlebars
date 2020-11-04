@@ -1,6 +1,12 @@
-<h2>Login</h2>
-<form class="form" action="/login" method="post">
-    <input type="email" name="email" class="form-input" placeholder="Email" required>
-    <input type="password" name="senha" class="form-input" placeholder="Senha" required>
-    <button class="form-submit" type="submit">ENTRAR!</button>
-</form>
+<div class="logo">
+    <img src="/imgs/logo.jpeg" alt="Logo Rei do Cangaço">
+</div>
+<div class="login">
+    <form class="form" action="/login" method="post">
+        <label class="form-label" for="email">Login:</label>
+        <input type="email" name="email" id="email" class="form-input" required>
+        <label class="form-label" for="senha">Senha:</label>
+        <input type="password" name="senha" id="senha" class="form-input" required>
+        <button class="form-submit" type="submit">ENTRAR!</button>
+    </form>
+</div>
