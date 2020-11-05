@@ -65,6 +65,7 @@
         res.render('registro')
     })
 
+    /*
     app.post('/registro', function (req, res) {
         var erros = []
 
@@ -127,6 +128,7 @@
                 })
             }
         })
+        */
 
         app.post('/', passport.authenticate('local', {
                 failureRedirect: '/',

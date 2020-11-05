@@ -5,6 +5,10 @@ require('../models/Fornecedor')
 const Fornecedor = mongoose.model('fornecedor')
 require('../models/Produto')
 const Produto = mongoose.model('produto')
+require('../models/Usuario')
+const Usuario = mongoose.model('usuarios')
+const passport = require('passport')
+const bcrypt = require('bcryptjs')
 const {eAdmin} = require('../helpers/eAdmin')
 
 router.get('/', eAdmin, function(req, res) {
@@ -197,6 +201,130 @@ router.post('/produto/del', eAdmin, function (req, res) {
     })
 })
 
+router.get('/usuarios', eAdmin, function (req, res) {
+    Usuario.find().then(function (usuario) {
+        res.render('admin/usuarios', { usuario: usuario.map(usuario => usuario.toJSON()) })
+    }).catch(function (err) {
+        req.flash('error_msg', 'Houve um erro ao listar os usuarios')
+        res.redirect('/admin')
+    })
+})
+
+
+
+router.get('/usuarios/add', eAdmin, function (req, res) {
+    res.render('admin/addusuario')
+})
+
+router.post('/usuarios/new', eAdmin, function (req, res) {
+    var erros = []
+
+    if (!req.body.nome || typeof req.body.nome == undefined || req.body.nome == null) {
+        erros.push({ texto: 'Nome inválido' })
+    }
+
+    if (!req.body.email || typeof req.body.email == undefined || req.body.email == null) {
+        erros.push({ texto: 'E-mail inválido' })
+    }
+
+    if (!req.body.senha || typeof req.body.senha == undefined || req.body.senha == null) {
+        erros.push({ texto: 'Senha inválida' })
+    }
+
+    if (req.body.senha.length < 4) {
+        erros.push({ texto: 'Senha muito curta' })
+    }
+
+    if (req.body.senha != req.body.senha2) {
+        erros.push({ texto: 'As senhas não coincidem, tente novamente' })
+    }
+
+    if (erros.length > 0) {
+        res.render('registro', { erros: erros })
+    } else {
+        Usuario.findOne({ email: req.body.email }).then(function (usuario) {
+            if (usuario) {
+                req.flash('error_msg', 'Erro! O Email já está cadastrado!')
+                res.redirect('/admin/usuario/add')
+            } else {
+                const novoUsuario = new Usuario({
+                    nome: req.body.nome,
+                    email: req.body.email,
+                    senha: req.body.senha
+                })
+
+                bcrypt.genSalt(10, function (erro, salt) {
+                    bcrypt.hash(novoUsuario.senha, salt, function (erro, hash) {
+                        if (erro) {
+                            req.flash('error_msg', 'Houve um erro durante o salvamento do usuario')
+                            res.redirect('/admin/usuario/add')
+                        }
+
+                        novoUsuario.senha = hash
+
+                        novoUsuario.save().then(function () {
+                            req.flash('sucess_msg', 'Usuario criado com sucesso!')
+                            res.redirect('/admin')
+                        }).catch(function () {
+                            req.flash('error_msg', 'Houve um erro ao criar o usuario, tente novamente!')
+                            res.redirect('/admin/usuarios/add')
+                        })
+                    })
+                })
+            }
+        }).catch(function (err) {
+            req.flash('error_msg', 'Houve um erro interno')
+            res.redirect('/admin')
+        })
+    }
+
+})
+
+/*
+router.get('/usuarios/edit/:id', eAdmin, function (req, res) {
+    Fornecedor.findOne({ _id: req.params.id }).lean().then(function (fornecedor) {
+        res.render('admin/editfornecedor', { fornecedor: fornecedor })
+    }).catch(function (err) {
+        req.flash('error_msg', 'Este fornecedor nao existe')
+        res.redirect('/admin/fornecedor')
+    })
+
+})
+
+router.post('/usuarios/edit', eAdmin, function (req, res) {
+
+    let filter = { _id: req.body.id }
+
+    Fornecedor.findOne(filter).then(function (fornecedor) {
+
+        fornecedor.nome = req.body.nome
+        fornecedor.telefone = req.body.telefone
+
+        fornecedor.save().then(function () {
+            req.flash('sucess_msg', "Fornecedor editado com Sucesso")
+            res.redirect('/admin/fornecedor')
+        }).catch(function (err) {
+            req.flash('error_msg', "Houve uma falha ao salvar a edicao")
+            res.redirect('/admin/fornecedor')
+        })
+
+    }).catch(function (err) {
+        req.flash('error_msg', 'Houve um erro ao editar o fornecedor')
+        res.redirect('/admin/fornecedor')
+    })
+
+})
+
+router.post('/usuarios/del', eAdmin, function (req, res) {
+    Fornecedor.remove({ _id: req.body.id }).then(function () {
+        req.flash('sucess_msg', "Fornecedor excluido com Sucesso")
+        res.redirect('/admin/fornecedor')
+    }).catch(function (err) {
+        req.flash('error_msg', "Houve uma erro ao excluir a fornecedor, tente novamente!")
+        res.redirect('/admin/fornecedor')
+    })
+})
+*/
 
 router.get('/teste', function (req, res) {
     res.send("Pagina de teste")
