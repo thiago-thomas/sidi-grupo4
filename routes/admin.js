@@ -245,7 +245,7 @@ router.post('/usuarios/new', eAdmin, function (req, res) {
         Usuario.findOne({ email: req.body.email }).then(function (usuario) {
             if (usuario) {
                 req.flash('error_msg', 'Erro! O Email já está cadastrado!')
-                res.redirect('/admin/usuario/add')
+                res.redirect('/admin/usuarios/add')
             } else {
                 const novoUsuario = new Usuario({
                     nome: req.body.nome,
@@ -257,7 +257,7 @@ router.post('/usuarios/new', eAdmin, function (req, res) {
                     bcrypt.hash(novoUsuario.senha, salt, function (erro, hash) {
                         if (erro) {
                             req.flash('error_msg', 'Houve um erro durante o salvamento do usuario')
-                            res.redirect('/admin/usuario/add')
+                            res.redirect('/admin/usuarios/add')
                         }
 
                         novoUsuario.senha = hash

@@ -13,7 +13,7 @@
     require('./config/auth')(passport)
     require('./models/Usuario')
     const Usuario = mongoose.model('usuarios')
-    const bcrypt = require('bcryptjs')
+    //const bcrypt = require('bcryptjs')
 
 //Configurações
     //Sessão
