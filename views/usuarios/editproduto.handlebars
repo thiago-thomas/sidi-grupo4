@@ -5,7 +5,7 @@
 {{/each}}
 
 <h3 class="tit_h3">Editar Produto</h3>
-<form action="/admin/produto/edit" method="post" class="form-fornecedor">
+<form action="/usuarios/produto/edit" method="post" class="form-fornecedor">
     <input type="hidden" name="id" value="{{produto._id}}">
     <label for="nome" class="form-label">Nome: </label>
     <input type="text" name="nome" id="nome" placeholder="Nome" value="{{produto.nome}}">

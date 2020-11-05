@@ -1,8 +1,8 @@
 <div class="logo logo_dash">
-    <a href="/admin"><img src="/imgs/logo.jpeg" alt="Logo Rei do Cangaço"></a>
+    <a href="/usuarios"><img src="/imgs/logo.jpeg" alt="Logo Rei do Cangaço"></a>
     <div class="nome_novo">
         <span>Produtos</span>
-        <a href="/admin/produto/add"><button class="botao botao_nome_novo">Novo Produto</button></a>
+        <a href="/usuarios/produto/add"><button class="botao botao_nome_novo">Novo Produto</button></a>
     </div>
 </div>
 
@@ -14,13 +14,13 @@
             <h3>Valor: {{valor}}</h3>
         </div>
         <div>
-            <a href="/admin/produto/edit/{{_id}}"><button class="botao btn_tam">Editar</button></a>
-            <form action="/admin/produto/del" method="post">
+            <a href="/usuarios/produto/edit/{{_id}}"><button class="botao btn_tam">Editar</button></a>
+            <form action="/usuarios/produto/del" method="post">
                 <input type="hidden" name="id" value="{{_id}}">
                 <button type="submit" class="error btn_tam">Deletar</button>
             </form>
         </div>
-        
+
     </div>
     {{else}}
     <h4>Nenhum Produto Registrado</h4>

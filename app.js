@@ -65,10 +65,6 @@
         res.render('registro')
     })
 
-    app.get('/login', function (req, res) {
-        res.render('login')
-    })
-
     app.post('/registro', function (req, res) {
         var erros = []
 
@@ -132,8 +128,8 @@
             }
         })
 
-        app.post('/login', passport.authenticate('local', {
-                failureRedirect: '/login',
+        app.post('/', passport.authenticate('local', {
+                failureRedirect: '/',
                 failureFlash: true
             }), (req, res, next) => {
                 if (req.user.eAdmin == 1) {

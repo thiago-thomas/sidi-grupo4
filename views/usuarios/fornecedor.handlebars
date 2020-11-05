@@ -1,0 +1,27 @@
+<div class="logo logo_dash">
+    <a href="/usuarios"><img src="/imgs/logo.jpeg" alt="Logo Rei do Cangaço"></a>
+    <div class="nome_novo">
+        <span>Fornecedores</span>
+        <a href="/usuarios/fornecedor/add"><button class="botao botao_nome_novo">Novo Fornecedor</button></a>
+    </div>
+</div>
+
+<div class="dashboard">
+    {{#each fornecedor}}
+    <div class="campo_obj">
+        <div>
+            <h3>Nome: {{nome}}</h3>
+            <h3>Telefone: {{telefone}}</h3>
+        </div>
+        <div>
+            <a href="/usuarios/fornecedor/edit/{{_id}}"><button class="botao btn_tam">Editar</button></a>
+            <form action="/usuarios/fornecedor/del" method="post">
+                <input type="hidden" name="id" value="{{_id}}">
+                <button type="submit" class="error btn_tam">Deletar</button>
+            </form>
+        </div>
+    </div>
+    {{else}}
+    <h4>Nenhum Fornecedor Registrado</h4>
+    {{/each}}
+</div>

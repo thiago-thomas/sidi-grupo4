@@ -7,7 +7,6 @@
 }
 
 .error {
-    margin-top: 20px;
     padding: 10px;
     background: red;
     color: white;
@@ -41,11 +40,34 @@
     border-radius: 2px;;
 }
 
-.fornecedor {
-    border: 1px solid green;
-    border-radius: 5px;
+.campo_obj {
+    flex: 1 400px;
+    display: flex;
+    justify-content: space-between;
+    border: 5px solid #994c00;
+    border-radius: 10px;
+    padding: 10px 20px;
     margin: 20px;
-    padding: 10px;
+}
+
+.campo_obj h3 {
+    font-size: 20px;
+    color: #994c00;
+    font-weight: 700;
+}
+
+.tit_h3 {
+    font-size: 50px;
+    color: #994c00;
+    font-weight: 700;
+}
+
+.btn_tam {
+    cursor: pointer;
+    margin-top: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    width: 100px;
 }
 
 .face {
@@ -88,6 +110,28 @@
 
 .login {
     border-top: 5px dotted #994c00;
+}
+
+.nome_novo {
+    text-align: right;
+    margin-right: 40px;
+    min-width: 130px;
+    height: 150px;
+}
+
+.nome_novo span{
+    display: block;
+    margin-bottom: 30px;
+    font-size: 40px;
+    font-weight: 800;
+    color: #994c00;
+}
+
+.botao_nome_novo {
+    cursor: pointer;
+    font-size: 20px;
+    height: 80px;
+    width: 130px;
 }
 
 .form {

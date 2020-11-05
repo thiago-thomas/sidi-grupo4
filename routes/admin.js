@@ -8,7 +8,8 @@ const Produto = mongoose.model('produto')
 const {eAdmin} = require('../helpers/eAdmin')
 
 router.get('/', eAdmin, function(req, res) {
-    res.render('admin/index')
+    usuario = req.user.nome;
+    res.render('admin/index', {usuario: usuario})
 })
 
 router.get('/fornecedor', eAdmin, function (req, res) {
