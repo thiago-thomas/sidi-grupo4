@@ -51,7 +51,13 @@ router.post('/fornecedor/new', eAdmin, function (req, res) {
     } else {
         const novoFornecedor = {
             nome: req.body.nome,
-            telefone: req.body.telefone
+            telefone: req.body.telefone,
+            cpf: req.body.cpf,
+            endereco: req.body.endereco,
+            bairro: req.body.bairro,
+            cidade: req.body.cidade,
+            estado: req.body.estado,
+            cep: req.body.cep
         }
 
         new Fornecedor(novoFornecedor).save().then(function () {
@@ -84,6 +90,12 @@ router.post('/fornecedor/edit', eAdmin, function (req, res) {
 
         fornecedor.nome = req.body.nome
         fornecedor.telefone = req.body.telefone
+        fornecedor.cpf = req.body.cpf
+        fornecedor.endereco = req.body.endereco
+        fornecedor.bairro = req.body.bairro
+        fornecedor.cidade = req.body.cidade
+        fornecedor.estado = req.body.estado
+        fornecedor.cep = req.body.cep
 
         fornecedor.save().then(function() {
             req.flash('sucess_msg', "Fornecedor editado com Sucesso")
@@ -137,12 +149,17 @@ router.post('/produto/new', eAdmin, function (req, res) {
         erros.push({ texto: "Valor em branco" })
     }
 
+    if (!req.body.descricao || typeof req.body.descricao == undefined || req.body.descricao == null) {
+        erros.push({ texto: "Descricao em branco" })
+    }
+
     if (erros.length > 0) {
         res.render('admin/addproduto', { erros: erros })
     } else {
         const novoProduto = {
             nome: req.body.nome,
-            valor: req.body.valor
+            valor: req.body.valor,
+            descricao: req.body.descricao
         }
 
         new Produto(novoProduto).save().then(function () {
@@ -175,6 +192,7 @@ router.post('/produto/edit', eAdmin, function (req, res) {
 
         produto.nome = req.body.nome
         produto.valor = req.body.valor
+        produto.descricao = req.body.descricao
 
         produto.save().then(function () {
             req.flash('sucess_msg', "Produto editado com Sucesso")
@@ -280,13 +298,13 @@ router.post('/usuarios/new', eAdmin, function (req, res) {
 
 })
 
-/*
+
 router.get('/usuarios/edit/:id', eAdmin, function (req, res) {
-    Fornecedor.findOne({ _id: req.params.id }).lean().then(function (fornecedor) {
-        res.render('admin/editfornecedor', { fornecedor: fornecedor })
+    Usuario.findOne({ _id: req.params.id }).lean().then(function (usuario) {
+        res.render('admin/editusuario', { usuario: usuario })
     }).catch(function (err) {
-        req.flash('error_msg', 'Este fornecedor nao existe')
-        res.redirect('/admin/fornecedor')
+        req.flash('error_msg', 'Este Usuário nao existe')
+        res.redirect('/admin/usuarios')
     })
 
 })
@@ -295,36 +313,74 @@ router.post('/usuarios/edit', eAdmin, function (req, res) {
 
     let filter = { _id: req.body.id }
 
-    Fornecedor.findOne(filter).then(function (fornecedor) {
+    Usuario.findOne({ email: req.body.email }).then(function (usuario){
+        if(usuario) {
+            req.flash('error_msg', 'Erro! O Email já está cadastrado!')
+            res.redirect('/admin/usuarios')
+        }else {
+            Usuario.findOne(filter).then(function (usuario) {
 
-        fornecedor.nome = req.body.nome
-        fornecedor.telefone = req.body.telefone
+                usuario.nome = req.body.nome
+                usuario.email = req.body.email
 
-        fornecedor.save().then(function () {
-            req.flash('sucess_msg', "Fornecedor editado com Sucesso")
-            res.redirect('/admin/fornecedor')
+                usuario.save().then(function () {
+                    req.flash('sucess_msg', "Usuario editado com Sucesso")
+                    res.redirect('/admin/usuarios')
+                }).catch(function (err) {
+                    req.flash('error_msg', "Houve uma falha ao salvar a edicao")
+                    res.redirect('/admin/usuarios')
+                })
+
+            }).catch(function (err) {
+                req.flash('error_msg', 'Houve um erro ao editar o Usuario')
+                res.redirect('/admin/usuarios')
+            })
+        }
+    }).catch(function (err) {
+        req.flash('error_msg', 'Houve um erro ao editar o Usuario')
+        res.redirect('/admin/usuarios')
+    })
+
+    /*
+
+    Usuario.findOne(filter).then(function (usuario) {
+
+        usuario.nome = req.body.nome
+        usuario.email = req.body.email
+
+        usuario.save().then(function () {
+            req.flash('sucess_msg', "Usuario editado com Sucesso")
+            res.redirect('/admin/usuarios')
         }).catch(function (err) {
             req.flash('error_msg', "Houve uma falha ao salvar a edicao")
-            res.redirect('/admin/fornecedor')
+            res.redirect('/admin/usuarios')
         })
 
     }).catch(function (err) {
-        req.flash('error_msg', 'Houve um erro ao editar o fornecedor')
-        res.redirect('/admin/fornecedor')
+        req.flash('error_msg', 'Houve um erro ao editar o Usuario')
+        res.redirect('/admin/usuarios')
     })
+    */
 
 })
 
 router.post('/usuarios/del', eAdmin, function (req, res) {
-    Fornecedor.remove({ _id: req.body.id }).then(function () {
-        req.flash('sucess_msg', "Fornecedor excluido com Sucesso")
-        res.redirect('/admin/fornecedor')
+    Usuario.remove({ _id: req.body.id }).then(function () {
+        req.flash('sucess_msg', "Usuário excluido com Sucesso")
+        res.redirect('/admin/usuarios')
     }).catch(function (err) {
-        req.flash('error_msg', "Houve uma erro ao excluir a fornecedor, tente novamente!")
-        res.redirect('/admin/fornecedor')
+        req.flash('error_msg', "Houve uma erro ao excluir o usuario, tente novamente!")
+        res.redirect('/admin/usuarios')
     })
 })
-*/
+
+router.get('/vendas', eAdmin, function(req,res) {
+    res.render('admin/vendas');
+})
+
+router.get('/vendas/add', eAdmin, function (req, res) {
+    res.render('admin/addvenda')
+})
 
 router.get('/teste', function (req, res) {
     res.send("Pagina de teste")

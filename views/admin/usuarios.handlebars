@@ -10,17 +10,15 @@
     {{#each usuario}}
     <div class="campo_obj">
         <div>
-            <h3>Nome: {{nome}}</h3>
-            <h3>Email: {{email}}</h3>
+            <h3>Nome: <i>{{nome}}</i></h3>
+            <h3>Email: <i>{{email}}</i></h3>
         </div>
         <div>
-            <!--
-            <a href="/admin/produto/edit/{{_id}}"><button class="botao btn_tam">Editar</button></a>
-            <form action="/admin/produto/del" method="post">
+            <a href="/admin/usuarios/edit/{{_id}}"><button class="botao btn_tam">Editar</button></a>
+            <form action="/admin/usuarios/del" method="post">
                 <input type="hidden" name="id" value="{{_id}}">
                 <button type="submit" class="error btn_tam">Deletar</button>
             </form>
-            -->
         </div>
 
     </div>

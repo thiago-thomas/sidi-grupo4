@@ -9,8 +9,14 @@
     {{#each fornecedor}}
     <div class="campo_obj">
         <div>
-            <h3>Nome: {{nome}}</h3>
-            <h3>Telefone: {{telefone}}</h3>
+            <h3>Nome: <i>{{nome}}</i></h3>
+            <h3>Telefone: <i>{{telefone}}</i></h3>
+            <h3>CPF: <i>{{cpf}}</i></h3>
+            <h3>Endereço: <i>{{endereco}}</i></h3>
+            <h3>Bairro: <i>{{bairro}}</i></h3>
+            <h3>Cidade: <i>{{cidade}}</i></h3>
+            <h3>Estado: <i>{{estado}}</i></h3>
+            <h3>CEP: <i>{{cep}}</i></h3>
         </div>
         <div>
             <a href="/admin/fornecedor/edit/{{_id}}"><button class="botao btn_tam">Editar</button></a>

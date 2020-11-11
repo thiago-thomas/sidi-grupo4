@@ -9,7 +9,9 @@
     <input type="hidden" name="id" value="{{produto._id}}">
     <label for="nome" class="form-label">Nome: </label>
     <input type="text" name="nome" id="nome" placeholder="Nome" value="{{produto.nome}}">
-    <label for="valor" class="form-label">Valor: </label>
+    <label for="valor" class="form-label">Preço: </label>
     <input type="text" name="valor" id="valor" placeholder="valor" value="{{produto.valor}}">
+    <label for="descricao" class="form-label">Descrição: </label>
+    <textarea name="descricao" id="descricao" cols="30" rows="10">{{produto.descricao}}</textarea>
     <button type="submit" class="botao">Editar Produto</button>
 </form>

@@ -10,6 +10,10 @@ const Produto = new Schema({
         type: Number,
         required: true
     },
+    descricao: {
+        type: String,
+        require: true
+    },
     date: {
         type: Date,
         default: Date.now()

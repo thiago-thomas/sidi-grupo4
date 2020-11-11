@@ -10,8 +10,9 @@
     {{#each produto}}
     <div class="campo_obj">
         <div>
-            <h3>Nome: {{nome}}</h3>
-            <h3>Valor: {{valor}}</h3>
+            <h3>Nome: <i>{{nome}}</i></h3>
+            <h3>Preço: R$<i>{{valor}}</i></h3>
+            <h3>Descrição: <i>{{descricao}}</i></h3>
         </div>
         <div>
             <a href="/admin/produto/edit/{{_id}}"><button class="botao btn_tam">Editar</button></a>
