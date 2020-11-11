@@ -1,0 +1,46 @@
+<div class="logo logo_dash">
+    <a href="/admin"><img src="/imgs/logo.jpeg" alt="Logo Rei do Cangaço"></a>
+    <div class="nome_novo">
+        <span>Suas Vendas</span>
+        <a href="/admin/vendas/add"><button class="botao botao_nome_novo">Nova Venda</button></a>
+    </div>
+</div>
+<div class="dashboard">
+    {{#each venda}}
+    <div class="campo_obj">
+        <div>
+            <h3>Nome: {{nome}}</h3>
+            <h3>Telefone: {{telefone}}</h3>
+        </div>
+        <div>
+            <a href="/admin/venda/edit/{{_id}}"><button class="botao btn_tam">Editar</button></a>
+            <form action="/admin/venda/del" method="post">
+                <input type="hidden" name="id" value="{{_id}}">
+                <button type="submit" class="error btn_tam">Deletar</button>
+            </form>
+        </div>
+    </div>
+    {{else}}
+    <h4>Nenhuma Venda Registrada</h4>
+    {{/each}}
+</div>
+
+<!--
+
+-->
+<!--
+<div class="logo logo_dash">
+    <img src="/imgs/logo.jpeg" alt="Logo Rei do Cangaço">
+    <div class="face">
+        <span class="face_img"></span>
+        <span class="face_span">Administrador {{usuario}}</span>
+    </div>
+</div>
+<div class="dashboard">
+    <a href="/admin/fornecedor"><input type="button" value="Fornecedor" class="menu"></a>
+    <a href="/admin/produto"><input type="button" value="Produtos" class="menu"></a>
+    <input type="button" value="Vendas (m)" class="menu-cinza">
+    <input type="button" value="Relatório (m)" class="menu-cinza">
+    <input type="button" value="Usuario (m)" class="menu-cinza">
+    <a href="/logout"><input type="button" value="Sair" class="menu"></a>
+</div>
