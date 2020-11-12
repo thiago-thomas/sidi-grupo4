@@ -9,21 +9,21 @@ require('../models/Usuario')
 const Usuario = mongoose.model('usuarios')
 const passport = require('passport')
 const bcrypt = require('bcryptjs')
-const {eAdmin} = require('../helpers/eAdmin')
+const { eAdmin } = require('../helpers/eAdmin')
 
-router.get('/', eAdmin, function(req, res) {
+router.get('/', eAdmin, function (req, res) {
     usuario = req.user.nome;
-    res.render('admin/index', {usuario: usuario})
+    res.render('admin/index', { usuario: usuario })
 })
 
 router.get('/fornecedor', eAdmin, function (req, res) {
-    Fornecedor.find().then(function(fornecedor) {
-        res.render('admin/fornecedor', { fornecedor: fornecedor.map(fornecedor => fornecedor.toJSON())})
-    }).catch(function(err) {
+    Fornecedor.find().then(function (fornecedor) {
+        res.render('admin/fornecedor', { fornecedor: fornecedor.map(fornecedor => fornecedor.toJSON()) })
+    }).catch(function (err) {
         req.flash('error_msg', 'Houve um erro ao listar os fornecedores')
         res.redirect('/admin')
     })
-    
+
 })
 
 router.get('/fornecedor/add', eAdmin, function (req, res) {
@@ -35,19 +35,19 @@ router.post('/fornecedor/new', eAdmin, function (req, res) {
     var erros = []
 
     if (!req.body.nome || typeof req.body.nome == undefined || req.body.nome == null) {
-        erros.push({texto: "Nome em branco"})
+        erros.push({ texto: "Nome em branco" })
     }
 
     if (!req.body.telefone || typeof req.body.telefone == undefined || req.body.telefone == null) {
         erros.push({ texto: "Telefone em branco" })
     }
 
-    if(req.body.telefone.length < 6) {
-        erros.push({texto: "Telefone invalido"})
+    if (req.body.telefone.length < 6) {
+        erros.push({ texto: "Telefone invalido" })
     }
 
-    if(erros.length > 0){
-        res.render('admin/addfornecedor', {erros: erros})
+    if (erros.length > 0) {
+        res.render('admin/addfornecedor', { erros: erros })
     } else {
         const novoFornecedor = {
             nome: req.body.nome,
@@ -69,24 +69,24 @@ router.post('/fornecedor/new', eAdmin, function (req, res) {
         })
     }
 
-    
+
 })
 
-router.get('/fornecedor/edit/:id', eAdmin, function(req, res) {
-    Fornecedor.findOne({_id: req.params.id}).lean().then(function(fornecedor){
-        res.render('admin/editfornecedor', {fornecedor: fornecedor})
-    }).catch(function(err) {
+router.get('/fornecedor/edit/:id', eAdmin, function (req, res) {
+    Fornecedor.findOne({ _id: req.params.id }).lean().then(function (fornecedor) {
+        res.render('admin/editfornecedor', { fornecedor: fornecedor })
+    }).catch(function (err) {
         req.flash('error_msg', 'Este fornecedor nao existe')
         res.redirect('/admin/fornecedor')
     })
-     
+
 })
 
 router.post('/fornecedor/edit', eAdmin, function (req, res) {
 
-    let filter = {_id: req.body.id }
+    let filter = { _id: req.body.id }
 
-    Fornecedor.findOne(filter).then(function(fornecedor){
+    Fornecedor.findOne(filter).then(function (fornecedor) {
 
         fornecedor.nome = req.body.nome
         fornecedor.telefone = req.body.telefone
@@ -97,23 +97,23 @@ router.post('/fornecedor/edit', eAdmin, function (req, res) {
         fornecedor.estado = req.body.estado
         fornecedor.cep = req.body.cep
 
-        fornecedor.save().then(function() {
+        fornecedor.save().then(function () {
             req.flash('sucess_msg', "Fornecedor editado com Sucesso")
             res.redirect('/admin/fornecedor')
-        }).catch(function(err) {
+        }).catch(function (err) {
             req.flash('error_msg', "Houve uma falha ao salvar a edicao")
             res.redirect('/admin/fornecedor')
         })
-        
-    }).catch(function(err) {
+
+    }).catch(function (err) {
         req.flash('error_msg', 'Houve um erro ao editar o fornecedor')
         res.redirect('/admin/fornecedor')
     })
 
 })
 
-router.post('/fornecedor/del', eAdmin, function(req, res) {
-    Fornecedor.remove({_id: req.body.id}).then(function() {
+router.post('/fornecedor/del', eAdmin, function (req, res) {
+    Fornecedor.remove({ _id: req.body.id }).then(function () {
         req.flash('sucess_msg', "Fornecedor excluido com Sucesso")
         res.redirect('/admin/fornecedor')
     }).catch(function (err) {
@@ -313,11 +313,11 @@ router.post('/usuarios/edit', eAdmin, function (req, res) {
 
     let filter = { _id: req.body.id }
 
-    Usuario.findOne({ email: req.body.email }).then(function (usuario){
-        if(usuario) {
+    Usuario.findOne({ email: req.body.email }).then(function (usuario) {
+        if (usuario) {
             req.flash('error_msg', 'Erro! O Email já está cadastrado!')
             res.redirect('/admin/usuarios')
-        }else {
+        } else {
             Usuario.findOne(filter).then(function (usuario) {
 
                 usuario.nome = req.body.nome
@@ -374,12 +374,22 @@ router.post('/usuarios/del', eAdmin, function (req, res) {
     })
 })
 
-router.get('/vendas', eAdmin, function(req,res) {
+router.get('/vendas', eAdmin, function (req, res) {
     res.render('admin/vendas');
 })
 
 router.get('/vendas/add', eAdmin, function (req, res) {
-    res.render('admin/addvenda')
+    Produto.find().then(function (produto) {
+        res.render('admin/addvenda', { produto: produto.map(produto => produto.toJSON()) })
+    }).catch(function (err) {
+        req.flash('error_msg', 'Houve um erro ao listar os produtos')
+        res.redirect('/admin')
+    })
+
+
+
+
+    //res.render('admin/addvenda')
 })
 
 router.get('/teste', function (req, res) {
