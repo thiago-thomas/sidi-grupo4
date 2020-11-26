@@ -10,6 +10,8 @@ const Usuario = mongoose.model('usuarios')
 const passport = require('passport')
 const bcrypt = require('bcryptjs')
 const { eAdmin } = require('../helpers/eAdmin')
+const Cart = require('../models/Cart')
+var Order = require('../models/Order')
 
 router.get('/', eAdmin, function (req, res) {
     usuario = req.user.nome;
@@ -134,7 +136,12 @@ router.get('/produto', eAdmin, function (req, res) {
 })
 
 router.get('/produto/add', eAdmin, function (req, res) {
-    res.render('admin/addproduto')
+    Fornecedor.find().then(function (fornecedor) {
+        res.render('admin/addproduto', { fornecedor: fornecedor.map(fornecedor => fornecedor.toJSON()) })
+    }).catch(function (err) {
+        req.flash('error_msg', 'Houve um erro ao listar os fornecedores')
+        res.redirect('/admin')
+    })
 })
 
 router.post('/produto/new', eAdmin, function (req, res) {
@@ -159,7 +166,8 @@ router.post('/produto/new', eAdmin, function (req, res) {
         const novoProduto = {
             nome: req.body.nome,
             valor: req.body.valor,
-            descricao: req.body.descricao
+            descricao: req.body.descricao,
+            fornecedor: req.body.fornecedor
         }
 
         new Produto(novoProduto).save().then(function () {
@@ -176,7 +184,12 @@ router.post('/produto/new', eAdmin, function (req, res) {
 
 router.get('/produto/edit/:id', eAdmin, function (req, res) {
     Produto.findOne({ _id: req.params.id }).lean().then(function (produto) {
-        res.render('admin/editproduto', { produto: produto })
+        Fornecedor.find().then(function (fornecedor) {
+            res.render('admin/editproduto', { produto: produto, fornecedor: fornecedor.map(fornecedor => fornecedor.toJSON()) })
+        }).catch(function (err) {
+            req.flash('error_msg', 'Houve um erro ao listar os fornecedores')
+            res.redirect('/admin')
+        })
     }).catch(function (err) {
         req.flash('error_msg', 'Este produto nao existe')
         res.redirect('/admin/produto')
@@ -193,6 +206,7 @@ router.post('/produto/edit', eAdmin, function (req, res) {
         produto.nome = req.body.nome
         produto.valor = req.body.valor
         produto.descricao = req.body.descricao
+        produto.fornecedor = req.body.fornecedor
 
         produto.save().then(function () {
             req.flash('sucess_msg', "Produto editado com Sucesso")
@@ -313,55 +327,67 @@ router.post('/usuarios/edit', eAdmin, function (req, res) {
 
     let filter = { _id: req.body.id }
 
-    Usuario.findOne({ email: req.body.email }).then(function (usuario) {
-        if (usuario) {
-            req.flash('error_msg', 'Erro! O Email já está cadastrado!')
-            res.redirect('/admin/usuarios')
-        } else {
-            Usuario.findOne(filter).then(function (usuario) {
+        Usuario.findOne({ email: req.body.email }).then(function (usuario) {
+            if (usuario) {
+                req.flash('error_msg', 'Erro! O Email já está cadastrado!')
+                res.redirect('/admin/usuarios')
+            } else {
+                Usuario.findOne(filter).then(function (usuario) {
 
-                usuario.nome = req.body.nome
-                usuario.email = req.body.email
+                    usuario.nome = req.body.nome
+                    usuario.senha = req.body.senha
 
-                usuario.save().then(function () {
-                    req.flash('sucess_msg', "Usuario editado com Sucesso")
-                    res.redirect('/admin/usuarios')
+                    bcrypt.genSalt(10, function (erro, salt) {
+                        bcrypt.hash(usuario.senha, salt, function (erro, hash) {
+                            if (erro) {
+                                req.flash('error_msg', 'Houve um erro durante o salvamento do usuario')
+                                res.redirect('/')
+                            }
+
+                            usuario.senha = hash
+
+                            usuario.save().then(function () {
+                                req.flash('sucess_msg', "Usuario editado com Sucesso")
+                                res.redirect('/admin/usuarios')
+                            }).catch(function (err) {
+                                req.flash('error_msg', "Houve uma falha ao salvar a edicao")
+                                res.redirect('/admin/usuarios')
+                            })
+                        })
+                    })
+
+
+
                 }).catch(function (err) {
-                    req.flash('error_msg', "Houve uma falha ao salvar a edicao")
+                    req.flash('error_msg', 'Houve um erro ao editar o Usuario')
                     res.redirect('/admin/usuarios')
                 })
-
-            }).catch(function (err) {
-                req.flash('error_msg', 'Houve um erro ao editar o Usuario')
-                res.redirect('/admin/usuarios')
-            })
-        }
-    }).catch(function (err) {
-        req.flash('error_msg', 'Houve um erro ao editar o Usuario')
-        res.redirect('/admin/usuarios')
-    })
-
-    /*
-
-    Usuario.findOne(filter).then(function (usuario) {
-
-        usuario.nome = req.body.nome
-        usuario.email = req.body.email
-
-        usuario.save().then(function () {
-            req.flash('sucess_msg', "Usuario editado com Sucesso")
-            res.redirect('/admin/usuarios')
+            }
         }).catch(function (err) {
-            req.flash('error_msg', "Houve uma falha ao salvar a edicao")
+            req.flash('error_msg', 'Houve um erro ao editar o Usuario')
             res.redirect('/admin/usuarios')
         })
 
-    }).catch(function (err) {
-        req.flash('error_msg', 'Houve um erro ao editar o Usuario')
-        res.redirect('/admin/usuarios')
-    })
-    */
-
+        /*
+    
+        Usuario.findOne(filter).then(function (usuario) {
+    
+            usuario.nome = req.body.nome
+            usuario.email = req.body.email
+    
+            usuario.save().then(function () {
+                req.flash('sucess_msg', "Usuario editado com Sucesso")
+                res.redirect('/admin/usuarios')
+            }).catch(function (err) {
+                req.flash('error_msg', "Houve uma falha ao salvar a edicao")
+                res.redirect('/admin/usuarios')
+            })
+    
+        }).catch(function (err) {
+            req.flash('error_msg', 'Houve um erro ao editar o Usuario')
+            res.redirect('/admin/usuarios')
+        })
+        */
 })
 
 router.post('/usuarios/del', eAdmin, function (req, res) {
@@ -375,21 +401,51 @@ router.post('/usuarios/del', eAdmin, function (req, res) {
 })
 
 router.get('/vendas', eAdmin, function (req, res) {
-    res.render('admin/vendas');
+    Order.find().then(function (order) {
+        res.render('admin/vendas', { order: order.map(order => order.toJSON()) })
+    }).catch(function (err) {
+        req.flash('error_msg', 'Houve um erro ao listar as vendas')
+        res.redirect('/admin')
+    })
 })
 
 router.get('/vendas/add', eAdmin, function (req, res) {
     Produto.find().then(function (produto) {
-        res.render('admin/addvenda', { produto: produto.map(produto => produto.toJSON()) })
+        res.render('admin/addvenda', { produto: produto.map(produto => produto.toJSON()), cart: req.session.cart })
     }).catch(function (err) {
         req.flash('error_msg', 'Houve um erro ao listar os produtos')
         res.redirect('/admin')
     })
-
-
-
-
     //res.render('admin/addvenda')
+})
+
+router.get('/vendas/add/add-to-cart/:id', function(req, res, next){
+    var produtoId = req.params.id;
+    var cart = new Cart(req.session.cart ? req.session.cart : {items: {}})
+    Produto.findById(produtoId, function(err, produto) {
+        if(err) {
+            return res.redirect('/admin');
+        }
+        cart.add(produto, produto.id);
+        req.session.cart = cart;
+        console.log(req.session.cart);
+        res.redirect('/admin/vendas/add');
+    }).catch(function (err) {
+        req.flash('error_msg', 'Houve um erro para adicionar ao carrinho')
+        res.redirect('/admin')
+    })
+})
+
+router.get('/vendas/add/cadastrar', function(req, res, next) {
+    var order = new Order({
+        usuario: req.user.nome,
+        cart: req.session.cart
+    });
+    order.save(function(err, result) {
+        req.flash('success', 'Successfully bought product!');
+        req.session.cart = null;
+        res.redirect('/admin/');
+    });
 })
 
 router.get('/teste', function (req, res) {

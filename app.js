@@ -13,7 +13,7 @@
     require('./config/auth')(passport)
     require('./models/Usuario')
     const Usuario = mongoose.model('usuarios')
-    //const bcrypt = require('bcryptjs')
+    const bcrypt = require('bcryptjs')
 
 //Configurações
     //Sessão
@@ -65,7 +65,6 @@
         res.render('registro')
     })
 
-    /*
     app.post('/registro', function (req, res) {
         var erros = []
 
@@ -128,7 +127,6 @@
                 })
             }
         })
-        */
 
         app.post('/', passport.authenticate('local', {
                 failureRedirect: '/',

@@ -4,9 +4,9 @@
 
 {{/each}}
 
+
 <h3 class="tit_h3">Nova Venda</h3>
 <div class="shopping-cart">
-
     {{#each produto}}
     <div class="campo_obj">
         <div>
@@ -14,54 +14,14 @@
             <h3>Preço: R$<i>{{valor}}</i></h3>
             <h3>Descrição: <i>{{descricao}}</i></h3>
         </div>
-        <div>
-            <button class="botao btn_tam" onclick="add({{valor}})">+</button>
-            <!--
-            <input type="text" class="qtdds" value="0" min="0">
-            -->
-            <button class="erro btn_tam" onclick="sub({{valor}})">-</button>
-            <br>
-            <br>
-            <!--
-            </span>
-                R$: 
-                <span class="preco-item">0</span>
-            </span>
-            -->
+        <div class="venda-btns">
+            <a href="/admin/vendas/add/add-to-cart/{{this._id}}" class="botao">Adicionar!</a>
         </div>
-    
     </div>
     {{else}}
     <h4>Nenhum Produto Registrado</h4>
-    {{/each}}
-
-    <h3 id="total">TOTAL: <span id="total-valor">0,00</span></h3>
-    <button class="form-submit" type="submit">CADASTRAR VENDA</button>
-
-<script>
-    
-    let total = document.getElementById('total-valor');
-    let valor = 0;
-
-    function add(n) {
-        console.log(n);
-        valor += n;
-        total.innerHTML = valor.toFixed(2);
-        //console.log(document.getElementsByClassName('preco-item'));
-        /*
-        if(n == 1) {
-            var num1 = Number(document.querySelector('#prod1').value);
-            num1++;
-            document.querySelector('#prod1').value = num1;
-        }
-        */
-    }
-    function sub(n) {
-        console.log(n);
-        valor -= n;
-        if(valor<0) {
-            valor = 0;
-        }
-        total.innerHTML = valor.toFixed(2);
-    }
-</script>
+</div>
+{{/each}}
+<span class="tit_subt">Subtotal: {{cart.valorTotal}}</span>
+<a href="/admin/vendas/add/cadastrar" class="form-submit">CADASTRAR VENDA</a>
+   

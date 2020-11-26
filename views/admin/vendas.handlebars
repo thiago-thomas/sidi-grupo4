@@ -1,23 +1,20 @@
 <div class="logo logo_dash">
     <a href="/admin"><img src="/imgs/logo.jpeg" alt="Logo Rei do Cangaço"></a>
     <div class="nome_novo">
-        <span>Suas Vendas</span>
+        <span>Vendas</span>
         <a href="/admin/vendas/add"><button class="botao botao_nome_novo">Nova Venda</button></a>
     </div>
 </div>
 <div class="dashboard">
-    {{#each venda}}
+    {{#each order}}
     <div class="campo_obj">
         <div>
-            <h3>Nome: {{nome}}</h3>
-            <h3>Telefone: {{telefone}}</h3>
+            <h3>Nome: {{usuario}}</h3>
+            <h3>Qtd de Itens: {{cart.qtdTotal}}</h3>
+            <h3>Valor Total: {{cart.valorTotal}}</h3>
         </div>
         <div>
-            <a href="/admin/venda/edit/{{_id}}"><button class="botao btn_tam">Editar</button></a>
-            <form action="/admin/venda/del" method="post">
-                <input type="hidden" name="id" value="{{_id}}">
-                <button type="submit" class="error btn_tam">Deletar</button>
-            </form>
+        
         </div>
     </div>
     {{else}}

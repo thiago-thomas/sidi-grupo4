@@ -200,6 +200,23 @@
     cursor: inherit;
 }
 
+.venda-btns {
+    margin: 20px auto;
+}
+
+.venda-btns > * {
+    display: block;
+    margin: 20px;
+}
+
+.tit_subt {
+    display: block;
+    margin: 30px;
+    font-size: 20px;
+    color: #994c00;
+    font-weight: 700;
+}
+
 /*
 .form-input, .form-submit {
     box-sizing: border-box;
