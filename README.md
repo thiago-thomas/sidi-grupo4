@@ -1,4 +1,4 @@
-#Projeto de Sistema de Mercado com Node
+# Projeto de Sistema de Mercado com Node
 
 Para 'rodar',
 com o npm instalado,
