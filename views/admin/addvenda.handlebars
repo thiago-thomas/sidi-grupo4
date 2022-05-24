@@ -6,6 +6,7 @@
 
 
 <h3 class="tit_h3">Nova Venda</h3>
+<a href="/admin/vendas/" class="form-submit">VOLTAR</a>
 <div class="shopping-cart">
     {{#each produto}}
     <div class="campo_obj">
@@ -22,6 +23,8 @@
     <h4>Nenhum Produto Registrado</h4>
 </div>
 {{/each}}
+<span class="tit_subt">Quantidade de produtos: {{cart.qtdTotal}}</span>
 <span class="tit_subt">Subtotal: {{cart.valorTotal}}</span>
+<a href="/admin/vendas/add/reset" class="form-submit">RESETAR VENDA</a>
 <a href="/admin/vendas/add/cadastrar" class="form-submit">CADASTRAR VENDA</a>
    

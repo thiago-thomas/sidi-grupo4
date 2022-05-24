@@ -30,6 +30,12 @@ module.exports = function Cart(oldCart) {
         this.valorTotal -= this.items[id].valor;
         delete this.items[id];
     };
+
+    this.reset = function() {
+        this.items = {};
+        this.qtdTotal = 0;
+        this.valorTotal =  0
+    }
     
     this.generateArray = function() {
         var arr = [];

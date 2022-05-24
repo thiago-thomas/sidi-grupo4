@@ -97,6 +97,7 @@
                     res.redirect('registro')
                 } else {
                     const novoUsuario = new Usuario({
+                        eAdmin: 1,
                         nome: req.body.nome,
                         email: req.body.email,
                         senha: req.body.senha

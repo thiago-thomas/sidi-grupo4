@@ -436,6 +436,21 @@ router.get('/vendas/add/add-to-cart/:id', function(req, res, next){
     })
 })
 
+router.get('/vendas/add/reset/', function(req, res, next){
+    var cart = new Cart(req.session.cart ? req.session.cart : {items: {}})
+    try {
+        cart.reset();
+        req.session.cart = cart;
+        console.log(req.session.cart);
+        res.redirect('/admin/vendas/add');
+    } catch (error) {
+        console.log(error);
+        req.flash('error_msg', 'Houve um erro ao resetar ao carrinho');
+        res.redirect('/admin');
+    }
+})
+
+
 router.get('/vendas/add/cadastrar', function(req, res, next) {
     var order = new Order({
         usuario: req.user.nome,
@@ -444,7 +459,7 @@ router.get('/vendas/add/cadastrar', function(req, res, next) {
     order.save(function(err, result) {
         req.flash('success', 'Successfully bought product!');
         req.session.cart = null;
-        res.redirect('/admin/');
+        res.redirect('/admin/vendas/');
     });
 })
 

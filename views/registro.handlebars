@@ -3,11 +3,16 @@
 {{else}}
 
 {{/each}}
-<h2>Cadastro</h2>
-<form class="form" action="/registro" method="post">
-    <input type="text" name="nome" class="form-input" placeholder="Nome" required>
-    <input type="email" name="email" class="form-input" placeholder="Email" required>
-    <input type="password" name="senha" class="form-input" placeholder="Senha" required>
-    <input type="password" name="senha2" class="form-input" placeholder="Senha Novamente" required>
-    <button class="form-submit" type="submit">CADASTRAR</button>
-</form>
+<div class="logo">
+    <img src="/imgs/logo.jpeg" alt="Logo Rei do Cangaço">
+</div>
+<div class="login">
+    <form class="form" action="/registro" method="post">
+        <input type="text" name="nome" class="form-input" placeholder="Nome" required>
+        <input type="email" name="email" class="form-input" placeholder="Login" required>
+        <input type="password" name="senha" class="form-input" placeholder="Senha" required>
+        <input type="password" name="senha2" class="form-input" placeholder="Senha Novamente" required>
+        <button class="form-submit" type="submit">CADASTRAR</button>
+    </form>
+</div>
+    
