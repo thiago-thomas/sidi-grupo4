@@ -48,6 +48,7 @@
     border-radius: 10px;
     padding: 10px 20px;
     margin: 20px;
+    background-color: white;
 }
 
 .campo_obj h3 {
@@ -86,7 +87,10 @@
 }
 
 .face_span {
-    color: #994c00;
+    border-radius: 5px;
+    display: inline-block;
+    background: #994c00;
+    color: white;
     font-size: 20px;
     font-weight: 700;
 }
@@ -135,13 +139,16 @@
 
 .form {
     max-width: 300px;
-    margin: 100px auto;
+    margin: 50px auto;
 }
 
 .form-label {
-    color: #994c00;
+    display: inline-block;
+    color: white;
     font-size: 20px;
+    background: #994c00;
     font-weight: 700;
+    border-radius: 5px;
 }
 
 .form-input {
@@ -212,13 +219,34 @@
     display: block;
     margin: 30px;
     font-size: 20px;
-    color: #994c00;
+    border-radius: 5px;
+    display: inline-block;
+    background: #994c00;
+    color: white;
     font-weight: 700;
 }
 
 .avatar {
     height: 100px;
     width: 100px;
+}
+
+body {
+    background-image: url('/imgs/background.png') !important;
+    background-size: cover;
+}
+
+.musica {
+    margin-top: 30px;
+}
+
+.video-link {
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.video {
+    margin-left: -120px;
 }
 
 /*

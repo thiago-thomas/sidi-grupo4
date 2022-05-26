@@ -61,6 +61,10 @@
         res.render('index')
     })
 
+    app.get('/video', function (req, res) {
+        res.render('video')
+    })
+
     app.get('/registro', function (req, res) {
         res.render('registro')
     })

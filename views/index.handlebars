@@ -1,13 +1,22 @@
-<div class="logo">
-    <img src="/imgs/logo.jpeg" alt="Logo Rei do Cangaço">
+<div class="background-login">
+    <div class="logo">
+        <img src="/imgs/logo.png" alt="Logo Rei do Cangaço">
+    </div>
+    <div class="login">
+        <form class="form" action="/" method="post">
+            <label class="form-label" for="email">Login:</label>
+            <input type="email" name="email" id="email" class="form-input" required>
+            <label class="form-label" for="senha">Senha:</label>
+            <input type="password" name="senha" id="senha" class="form-input" required>
+            <button class="form-submit" type="submit">ENTRAR!</button>
+            <a class="form-submit" style="text-decoration: none; margin-left: 20px;" href="/registro">CADASTRAR</a>
+            <br>
+            <a class="form-submit video-link" href="/video">Vídeo Demonstrativo</a>
+             <audio class="musica" controls loop autoplay>
+                <source src="/music/musica.mp3" type="audio/mpeg">
+                Your browser does not support the audio tag.
+            </audio>
+        </form>
+    </div> 
 </div>
-<div class="login">
-    <form class="form" action="/" method="post">
-        <label class="form-label" for="email">Login:</label>
-        <input type="email" name="email" id="email" class="form-input" required>
-        <label class="form-label" for="senha">Senha:</label>
-        <input type="password" name="senha" id="senha" class="form-input" required>
-        <button class="form-submit" type="submit">ENTRAR!</button>
-        <a class="form-submit" style="text-decoration: none; margin-left: 20px;" href="/registro">CADASTRAR</a>
-    </form>
-</div>      
+     
